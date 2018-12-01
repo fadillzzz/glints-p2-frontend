@@ -7,14 +7,14 @@ const buttonStyle = {
 };
 
 class Logout extends Component {
-    logout = e => {
-        console.log('logging out');
+    logOut = e => {
+        this.props.logOut();
     }
 
     render() {
         return (
             <Row>
-                <Button style={buttonStyle} color="danger" onClick={this.logout}>
+                <Button style={buttonStyle} color="danger" onClick={this.logOut}>
                     Logout
                 </Button>
             </Row>
