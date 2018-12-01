@@ -2,15 +2,17 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import {Container} from 'reactstrap';
 import Register from './Register';
+import Dashboard from './Dashboard';
 
 class App extends Component {
   render() {
     return (
-      <Container>
-        <Router>
+      <Router>
+        <Container className="h-100">
           <Route path="/register" component={Register} />
-        </Router>
-      </Container>
+          <Route path="/dashboard" component={Dashboard} />
+        </Container>
+      </Router>
     );
   }
 }

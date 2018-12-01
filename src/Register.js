@@ -1,17 +1,30 @@
 import React, {Component} from 'react';
-import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input, Alert} from 'reactstrap';
 import {connect} from 'react-redux';
-import {register} from './actions/Register';
+import {Redirect} from 'react-router-dom';
+import {REGISTER_FAILURE, register} from './actions/Register';
 
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = {email: '', password: ''};
+        this.state = {
+            email: '',
+            password: '',
+            submitDisabled: false
+        };
     }
 
-    submitForm = e => {
+    submitForm = async e => {
         e.preventDefault();
-        this.props.register(this.state.email, this.state.password);
+        this.setState({submitDisabled: true});
+
+        const action = await this.props.register(this.state.email, this.state.password);
+
+        if (action.type === REGISTER_FAILURE) {
+            // Only restore the button in case of a failure, because we're gonna
+            // redirect the user otherwise.
+            this.setState({submitDisabled: false});
+        }
     }
 
     updateForm = (e) => {
@@ -19,9 +32,14 @@ class Register extends Component {
     }
 
     render() {
+        const {error} = this.props.data;
+
+        if (localStorage.authToken) {
+            return <Redirect to="/dashboard" />;
+        }
+
         return (
             <div>
-                <h1>Register</h1>
                 <Form onSubmit={this.submitForm}>
                     <FormGroup>
                         <Label for="email">Email</Label>
@@ -35,7 +53,10 @@ class Register extends Component {
                             placeholder="********" value={this.state.password}
                             onChange={this.updateForm} />
                     </FormGroup>
-                    <Button>Submit</Button>
+                    <Alert color="danger" isOpen={!!error}>
+                        {error}
+                    </Alert>
+                    <Button disabled={this.state.submitDisabled}>Sign in / Register</Button>
                 </Form>
             </div>
         );
