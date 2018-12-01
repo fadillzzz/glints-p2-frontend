@@ -10,9 +10,19 @@ if (localStorage.authToken) {
 }
 
 export default function configureStore() {
-    return createStore(
+    const store = createStore(
         combinedReducers,
         initialState,
         composeEnhancers(applyMiddleware(thunk))
     );
+
+    store.subscribe(() => {
+        const token = store.getState().register.token;
+
+        if (token) {
+            localStorage.setItem('authToken', token);
+        }
+    });
+
+    return store;
 }
