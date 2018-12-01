@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Router>
         <Container className="h-100">
-          <Route path="/register" component={Register} />
+          <Route exact path="/" component={Register} />
           <Route path="/dashboard" component={Dashboard} />
         </Container>
       </Router>
