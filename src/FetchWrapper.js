@@ -4,34 +4,37 @@ class FetchWrapper {
         this.client = client;
     }
 
-    get(url, params = {}, headers = {}) {
+    async get(url, params = {}, headers = {}) {
         const qs = this.queryString(params);
 
-        return this.common('GET', `${url}?${qs}`, null, headers);
+        return await this.common('GET', `${url}?${qs}`, null, headers);
     }
 
-    post(url, body = {}, headers = {}) {
-        return this.common('POST', url, body, headers);
+    async post(url, body = {}, headers = {}) {
+        return await this.common('POST', url, body, headers);
     }
 
-    put(url, body = {}, headers = {}) {
-        return this.common('PUT', url, body, headers);
+    async put(url, body = {}, headers = {}) {
+        return await this.common('PUT', url, body, headers);
     }
 
-    patch(url, body = {}, headers = {}) {
-        return this.common('PATCH', url, body, headers);
+    async patch(url, body = {}, headers = {}) {
+        return await this.common('PATCH', url, body, headers);
     }
 
-    delete(url, headers = {}) {
-        return this.common('DELETE', url, null, headers);
+    async delete(url, headers = {}) {
+        return await this.common('DELETE', url, null, headers);
     }
 
-    common(method, url, body = null, headers = {}) {
-        return this.client(`${this.url}/${url}`, {
+    async common(method, url, body = null, headers = {}) {
+        headers = this.injectToken(headers);
+        headers['Content-Type'] = 'application/json';
+
+        return await this.client(`${this.url}/${url}`, {
             method,
-            headers: this.injectToken(headers),
+            headers,
             body: body ? JSON.stringify(body) : null
-        })
+        });
     }
 
     /**
