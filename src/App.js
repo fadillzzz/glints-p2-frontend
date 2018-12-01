@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Container className="h-100">
+        <Container className="h-100" fluid>
           <Route exact path="/" component={Register} />
           <Route path="/dashboard" component={Dashboard} />
         </Container>

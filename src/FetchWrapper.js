@@ -26,6 +26,13 @@ class FetchWrapper {
         return await this.common('DELETE', url, null, headers);
     }
 
+    /**
+     * @param {String} method HTTP verb
+     * @param {String} url
+     * @param {Object|null} body
+     * @param {Object} headers
+     * @return {Promise}
+     */
     async common(method, url, body = null, headers = {}) {
         headers = this.injectToken(headers);
         headers['Content-Type'] = 'application/json';

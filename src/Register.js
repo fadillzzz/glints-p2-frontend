@@ -8,8 +8,6 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
             submitDisabled: false
         };
     }
@@ -18,17 +16,15 @@ class Register extends Component {
         e.preventDefault();
         this.setState({submitDisabled: true});
 
-        const action = await this.props.register(this.state.email, this.state.password);
+        const {email, password} = e.target;
+
+        const action = await this.props.register(email.value, password.value);
 
         if (action.type === REGISTER_FAILURE) {
             // Only restore the button in case of a failure, because we're gonna
             // redirect the user otherwise.
             this.setState({submitDisabled: false});
         }
-    }
-
-    updateForm = (e) => {
-        this.setState({[e.target.name]: e.target.value});
     }
 
     render() {
@@ -44,14 +40,12 @@ class Register extends Component {
                     <FormGroup>
                         <Label for="email">Email</Label>
                         <Input type="email" name="email" id="email" required
-                            placeholder="user@email.com" value={this.state.email}
-                            onChange={this.updateForm} />
+                            placeholder="user@email.com" />
                     </FormGroup>
                     <FormGroup>
                         <Label for="password">Password</Label>
                         <Input type="password" name="password" id="password" required
-                            placeholder="********" value={this.state.password}
-                            onChange={this.updateForm} />
+                            placeholder="********" />
                     </FormGroup>
                     <Alert color="danger" isOpen={!!error}>
                         {error}

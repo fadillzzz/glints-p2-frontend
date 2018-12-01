@@ -1,6 +1,5 @@
 import {
     LOGGING_OUT,
-    REGISTERING,
     REGISTER_SUCCESS,
     REGISTER_FAILURE
 } from '../actions/Register';
