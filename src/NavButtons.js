@@ -17,7 +17,7 @@ class NavButtons extends Component {
                 </Row>
                 <Row>
                     <Link className="nav-buttons" to={searchUrl}>
-                        <Button className="nav-buttons">
+                        <Button className="nav-buttons" color="primary">
                             <FontAwesomeIcon icon={faSearch} /> Search
                         </Button>
                     </Link>
