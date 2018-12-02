@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSearch, faPlusSquare} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import {Row, Col, Form, Button, Input} from 'reactstrap';
 import {search} from './actions/Search';
@@ -46,7 +46,7 @@ class Search extends Component {
                 <Form onSubmit={this.search}>
                     <h1>Search Restaurants</h1>
                     <Row>
-                        <Col md="9">
+                        <Col md="10">
                             <DatePicker
                                 selected={this.state.dateTime}
                                 onChange={this.updateFilter}
@@ -59,12 +59,12 @@ class Search extends Component {
                                 customInput={<Input />}
                             />
                         </Col>
-                        <Col md="3">
+                        <Col md="2">
                             <Button disabled={this.state.searchDisabled}>Submit</Button>
                         </Col>
                     </Row>
                 </Form>
-                <div style={{display: restaurants.length === 0 ? 'none' : 'block', paddingTop: '20px'}}>
+                <div id="search-result" style={{display: restaurants.length === 0 ? 'none' : 'block'}}>
                     {restaurants.map((restaurant, index) => (
                         <Row key={index}>
                             <Col>

@@ -33,3 +33,15 @@ code {
 .add-to-collection .name {
     margin-left: 5px;
 }
+
+#search-result {
+    padding-top: 20px;
+}
+
+#sidebar {
+    background-color: #20232a;
+}
+
+#main-content {
+    overflow-y: scroll;
+}
