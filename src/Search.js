@@ -27,19 +27,22 @@ class Search extends Component {
 
     search = async e => {
         e.preventDefault();
-        this.setState({searchDisabled: true});
 
-        let dateTime = this.state.dateTime;
+        if (! this.state.searchDisabled) {
+            this.setState({searchDisabled: true});
 
-        if (dateTime) {
-            dateTime = moment(dateTime).format('ddd H:mm A');
-        } else {
-            dateTime = '';
+            let dateTime = this.state.dateTime;
+
+            if (dateTime) {
+                dateTime = moment(dateTime).format('ddd H:mm A');
+            } else {
+                dateTime = '';
+            }
+
+            await this.props.search(dateTime);
+
+            this.setState({searchDisabled: false});
         }
-
-        await this.props.search(dateTime);
-
-        this.setState({searchDisabled: false});
     };
 
     toggleModal = restaurant => {

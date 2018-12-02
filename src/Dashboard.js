@@ -28,12 +28,15 @@ class Dashboard extends Component {
 
     createCollection = async e => {
         e.preventDefault();
-        this.setState({createDisabled: true});
 
-        const action = await this.props.createCollection(e.target.name.value);
+        if (! this.state.createDisabled) {
+            this.setState({createDisabled: true});
 
-        if (action.type === CREATE_SUCCESS) {
-            this.setState({createDisabled: false, modalOpen: false});
+            const action = await this.props.createCollection(e.target.name.value);
+
+            if (action.type === CREATE_SUCCESS) {
+                this.setState({createDisabled: false, modalOpen: false});
+            }
         }
     }
 

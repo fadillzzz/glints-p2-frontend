@@ -5,14 +5,17 @@ import {
     GET_DETAILS_SUCCESS,
     EDIT_SUCCESS,
     EDIT_FAILURE,
-    REMOVE_SUCCESS
+    REMOVE_SUCCESS,
+    ADD_USER_SUCCESS,
+    ADD_USER_FAILURE
 } from '../actions/Collection';
 
 const initialState = {
     error: '',
     collections: [],
     selected: null,
-    editError: ''
+    editError: '',
+    addUserError: ''
 };
 
 export default function collection(state = initialState, action) {
@@ -43,6 +46,12 @@ export default function collection(state = initialState, action) {
             const restaurants = state.selected.restaurants;
             state.selected.restaurants = restaurants.filter(r => r.id !== action.restaurant);
             return {...state, selected: {...state.selected}};
+        case ADD_USER_SUCCESS:
+            action.user.id = action.user._id;
+            state.selected.users.push(action.user);
+            return {...state, addUserError: '', selected: {...state.selected}};
+        case ADD_USER_FAILURE:
+            return {...state, addUserError: action.error};
         default:
             return state;
     }
