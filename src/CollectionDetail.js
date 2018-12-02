@@ -10,6 +10,7 @@ import {
     addUser,
     addSuccess,
     removeSuccess,
+    editSuccess,
     ADD_USER_FAILURE
 } from './actions/Collection';
 import AddUserModal from './AddUserModal';
@@ -31,6 +32,10 @@ class CollectionDetail extends Component {
             props.socket.on('restaurant-removed', restaurant => {
                 props.removeSuccess(restaurant);
             });
+
+            props.socket.on('edit-collection', collection => {
+                props.editSuccess(collection.name, collection.id);
+            });
         }
     }
 
@@ -43,7 +48,9 @@ class CollectionDetail extends Component {
         const {socket} = this.props;
 
         if (socket) {
-            socket.removeAllListeners('restaurant-added');
+            ['restaurant-added', 'restaurant-removed', 'edit-collection'].forEach(name => {
+                socket.removeAllListeners(name);
+            });
         }
     }
 
@@ -148,7 +155,8 @@ const mapDispatchToProps = dispatch => ({
     remove: (id, restaurant) => dispatch(remove(restaurant, id)),
     addUser: (id, email) => dispatch(addUser(id, email)),
     addSuccess: restaurant => dispatch(addSuccess(restaurant)),
-    removeSuccess: restaurant => dispatch(removeSuccess(restaurant))
+    removeSuccess: restaurant => dispatch(removeSuccess(restaurant)),
+    editSuccess: (name, id) => dispatch(editSuccess(name, id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionDetail);

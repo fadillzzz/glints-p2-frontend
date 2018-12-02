@@ -40,7 +40,22 @@ export default function collection(state = initialState, action) {
             action.collection.users.forEach(u => u.id = u._id);
             return {...state, selected: action.collection};
         case EDIT_SUCCESS:
-            return {...state, selected: {...state.selected, name: action.name}};
+            // If ID is included, it's most likely coming from a socket
+            // and we should update collections array just in case the user
+            // is on the collections page
+            if (action.id) {
+                state.collections.forEach(collection => {
+                    if (collection.id === action.id) {
+                        collection.name = action.name;
+                    }
+                });
+            }
+
+            return {
+                ...state,
+                selected: {...state.selected, name: action.name},
+                collections: [...state.collections]
+            };
         case EDIT_FAILURE:
             return {...state, editError: action.error};
         case REMOVE_SUCCESS:

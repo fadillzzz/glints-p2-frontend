@@ -1,12 +1,30 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Button} from 'reactstrap';
-import {getCollections} from './actions/Collection';
+import {getCollections, editSuccess} from './actions/Collection';
 import {Link} from 'react-router-dom';
 
 class Collection extends Component {
+    constructor(props) {
+        super(props);
+
+        if (props.socket) {
+            props.socket.on('edit-collection', collection => {
+                props.editSuccess(collection.name, collection.id);
+            });
+        }
+    }
+
     componentDidMount() {
         this.props.getCollections();
+    }
+
+    componentWillUnmount() {
+        const {socket} = this.props;
+
+        if (socket) {
+            socket.removeAllListeners('edit-collection');
+        }
     }
 
     renderItem = collection => {
@@ -39,9 +57,13 @@ class Collection extends Component {
     }
 }
 
-const mapStateToProps = state => ({data: state.collection.collections});
+const mapStateToProps = state => ({
+    data: state.collection.collections,
+    socket: state.socket.socket
+});
 const mapDispatchToProps = dispatch => ({
-    getCollections: () => dispatch(getCollections())
+    getCollections: () => dispatch(getCollections()),
+    editSuccess: (name, id) => dispatch(editSuccess(name, id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collection);

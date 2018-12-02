@@ -27,8 +27,8 @@ export function getDetailsSuccess(collection) {
     return {type: GET_DETAILS_SUCCESS, collection};
 }
 
-export function editSuccess(name) {
-    return {type: EDIT_SUCCESS, name};
+export function editSuccess(name, id = null) {
+    return {type: EDIT_SUCCESS, name, id};
 }
 
 export function editFailure(error) {
