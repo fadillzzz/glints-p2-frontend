@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
-import {Row, Button} from 'reactstrap';
+import {Row, Col, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignOutAlt, faSearch, faList, faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 
 class NavButtons extends Component {
     render() {
-        const {logOut, searchUrl, collectionUrl, newColModal} = this.props;
+        const {email, logOut, searchUrl, collectionUrl, newColModal} = this.props;
 
         return (
             <div>
+                <Row>
+                    <Button className="nav-buttons" color="info">
+                        {email}
+                    </Button>
+                </Row>
                 <Row>
                     <Button className="nav-buttons" color="danger" onClick={logOut}>
                         <FontAwesomeIcon icon={faSignOutAlt} /> Logout

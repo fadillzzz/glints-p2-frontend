@@ -6,7 +6,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let initialState;
 
 if (localStorage.authToken) {
-    initialState = {register: {token: localStorage.authToken}};
+    initialState = {register: {token: localStorage.authToken, email: localStorage.email}};
 }
 
 export default function configureStore() {
@@ -17,8 +17,9 @@ export default function configureStore() {
     );
 
     store.subscribe(() => {
-        const token = store.getState().register.token;
+        const {email, token} = store.getState().register;
         localStorage.setItem('authToken', token);
+        localStorage.setItem('email', email);
     });
 
     return store;

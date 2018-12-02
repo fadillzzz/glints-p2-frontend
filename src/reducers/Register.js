@@ -6,15 +6,16 @@ import {
 
 const initialState = {
     error: '',
-    token: ''
+    token: '',
+    email: ''
 };
 
 export default function register(state = initialState, action) {
     switch (action.type) {
         case REGISTER_SUCCESS:
-            return {...initialState, token: action.token};
+            return {...state, token: action.token, email: action.email};
         case REGISTER_FAILURE:
-            return {error: action.error};
+            return {...state, error: action.error};
         case LOGGING_OUT:
             return {...initialState};
         default:
