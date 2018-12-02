@@ -32,7 +32,7 @@ class Dashboard extends Component {
         const action = await this.props.createCollection(e.target.name.value);
 
         if (action.type === CREATE_SUCCESS) {
-            this.setState({createDisabled: false});
+            this.setState({createDisabled: false, modalOpen: false});
         }
     }
 
