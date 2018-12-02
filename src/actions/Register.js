@@ -12,12 +12,21 @@ export function registerFailure(error) {
     return {type: REGISTER_FAILURE, error};
 }
 
+/**
+ * Logs the user out
+ */
 export function logOut() {
     return dispatch => {
         return dispatch({type: LOGGING_OUT});
     };
 }
 
+/**
+ * Sign in or register
+ *
+ * @param {String} email
+ * @param {String} password
+ */
 export function register(email, password) {
     return async dispatch => {
         let res = await fetch.post('auth', {email, password});

@@ -51,6 +51,11 @@ export function addUserFailure(error) {
     return {type: ADD_USER_FAILURE, error};
 }
 
+/**
+ * Creates a new collection
+ *
+ * @param {String} name
+ */
 export function create(name) {
     return async dispatch => {
         let res = await fetch.post('collections', {name});
@@ -64,6 +69,12 @@ export function create(name) {
     };
 }
 
+/**
+ * Updates the name of a collection
+ *
+ * @param {String} id
+ * @param {String} name
+ */
 export function edit(id, name) {
     return async dispatch => {
         let res = await fetch.put(`collections/${id}`, {name});
@@ -77,6 +88,9 @@ export function edit(id, name) {
     };
 }
 
+/**
+ * Retrieves all collections
+ */
 export function getCollections() {
     return async dispatch => {
         let res = await fetch.get('collections');
@@ -88,6 +102,11 @@ export function getCollections() {
     };
 }
 
+/**
+ * Retrieves a collection's details
+ *
+ * @param {String} id
+ */
 export function getDetails(id) {
     return async dispatch => {
         let res = await fetch.get(`collections/${id}`);
@@ -99,12 +118,24 @@ export function getDetails(id) {
     };
 }
 
+/**
+ * Adds a restaurant to a collection
+ *
+ * @param {String} restaurantId
+ * @param {String} collectionId
+ */
 export function addTo(restaurantId, collectionId) {
     return dispatch => {
         fetch.put(`collections/${collectionId}/restaurants/${restaurantId}`);
     };
 }
 
+/**
+ * Removes a restaurant from a collection
+ *
+ * @param {String} restaurantId
+ * @param {String} collectionId
+ */
 export function removeFrom(restaurantId, collectionId) {
     return async dispatch => {
         await fetch.delete(`collections/${collectionId}/restaurants/${restaurantId}`);
@@ -112,6 +143,12 @@ export function removeFrom(restaurantId, collectionId) {
     };
 }
 
+/**
+ * Adds a user to a collection
+ *
+ * @param {String} collectionId
+ * @param {String} email
+ */
 export function addUser(collectionId, email) {
     return async dispatch => {
         // Ideally this would be PUT /collections/:id/users/:userId

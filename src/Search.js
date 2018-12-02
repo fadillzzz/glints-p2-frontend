@@ -49,7 +49,12 @@ class Search extends Component {
         this.setState({addModalOpen: ! this.state.addModalOpen, selected: restaurant});
     };
 
-    addTo = (collection) => {
+    /**
+     * Adds the selected restaurant to a collection
+     *
+     * @param {Object} collection
+     */
+    addTo = collection => {
         const {selected} = this.state;
         this.props.addTo(selected.id, collection.id);
         this.toggleModal();

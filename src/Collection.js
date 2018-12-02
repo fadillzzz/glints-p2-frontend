@@ -32,6 +32,11 @@ class Collection extends Component {
         }
     }
 
+    /**
+     * Renders a collection as a link to the collection details page
+     *
+     * @param {Object} collection
+     */
     renderItem = collection => {
         const {match} = this.props;
 
