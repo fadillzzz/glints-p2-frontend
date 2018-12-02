@@ -37,7 +37,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        const {match, token, logOut} = this.props;
+        const {email, match, token, logOut} = this.props;
 
         if (! token) {
             return <Redirect to="/" />;
@@ -46,7 +46,7 @@ class Dashboard extends Component {
         return (
             <Row className="h-100">
                 <Col md="3" id="sidebar">
-                    <NavButtons logOut={logOut} searchUrl={match.url}
+                    <NavButtons email={email} logOut={logOut} searchUrl={match.url}
                         collectionUrl={`${match.url}/collections`}
                         newColModal={this.toggleModal} />
                 </Col>
@@ -61,7 +61,7 @@ class Dashboard extends Component {
     }
 }
 
-const mapStateToProps = state => ({token: state.register.token});
+const mapStateToProps = state => ({token: state.register.token, email: state.register.email});
 const mapDispatchToProps = dispatch => ({
     logOut: () => dispatch(logOut()),
     createCollection: (name) => dispatch(createCollection(name))
