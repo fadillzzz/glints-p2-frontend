@@ -16,7 +16,6 @@ export default function register(state = initialState, action) {
         case REGISTER_FAILURE:
             return {error: action.error};
         case LOGGING_OUT:
-            localStorage.removeItem('authToken');
             return {...initialState};
         default:
             return state;

@@ -18,10 +18,7 @@ export default function configureStore() {
 
     store.subscribe(() => {
         const token = store.getState().register.token;
-
-        if (token) {
-            localStorage.setItem('authToken', token);
-        }
+        localStorage.setItem('authToken', token);
     });
 
     return store;
