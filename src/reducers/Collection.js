@@ -7,7 +7,8 @@ import {
     EDIT_FAILURE,
     REMOVE_SUCCESS,
     ADD_USER_SUCCESS,
-    ADD_USER_FAILURE
+    ADD_USER_FAILURE,
+    ADD_SUCCESS
 } from '../actions/Collection';
 
 const initialState = {
@@ -52,6 +53,17 @@ export default function collection(state = initialState, action) {
             return {...state, addUserError: '', selected: {...state.selected}};
         case ADD_USER_FAILURE:
             return {...state, addUserError: action.error};
+        case ADD_SUCCESS:
+            const restaurantFound = state.selected.restaurants.find(r => {
+                return r.id === action.restaurant._id;
+            });
+
+            if (! restaurantFound) {
+                action.restaurant.id = action.restaurant._id;
+                state.selected.restaurants.push(action.restaurant);
+            }
+
+            return {...state, selected: {...state.selected}};
         default:
             return state;
     }

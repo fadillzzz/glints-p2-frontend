@@ -3,7 +3,15 @@ import {Row, Col, Form, FormGroup, Input, Button, ButtonGroup} from 'reactstrap'
 import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {getDetails, edit, removeFrom as remove, addUser, ADD_USER_FAILURE} from './actions/Collection';
+import {
+    getDetails,
+    edit,
+    removeFrom as remove,
+    addUser,
+    addSuccess,
+    removeSuccess,
+    ADD_USER_FAILURE
+} from './actions/Collection';
 import AddUserModal from './AddUserModal';
 
 class CollectionDetail extends Component {
@@ -14,11 +22,29 @@ class CollectionDetail extends Component {
             userModalOpen: false,
             addUserDisabled: false
         };
+
+        if (props.socket) {
+            props.socket.on('restaurant-added', restaurant => {
+                props.addSuccess(restaurant);
+            });
+
+            props.socket.on('restaurant-removed', restaurant => {
+                props.removeSuccess(restaurant);
+            });
+        }
     }
 
     componentDidMount() {
         const {match} = this.props;
         this.props.getDetails(match.params.id);
+    }
+
+    componentWillUnmount() {
+        const {socket} = this.props;
+
+        if (socket) {
+            socket.removeAllListeners('restaurant-added');
+        }
     }
 
     toggleUserModal = e => {
@@ -113,13 +139,16 @@ class CollectionDetail extends Component {
 const mapStateToProps = state => ({
     collection: state.collection.selected,
     error: state.collection.editError,
-    addUserError: state.collection.addUserError
+    addUserError: state.collection.addUserError,
+    socket: state.socket.socket
 });
 const mapDispatchToProps = dispatch => ({
     getDetails: (id) => dispatch(getDetails(id)),
     edit: (id, name) => dispatch(edit(id, name)),
     remove: (id, restaurant) => dispatch(remove(restaurant, id)),
-    addUser: (id, email) => dispatch(addUser(id, email))
+    addUser: (id, email) => dispatch(addUser(id, email)),
+    addSuccess: restaurant => dispatch(addSuccess(restaurant)),
+    removeSuccess: restaurant => dispatch(removeSuccess(restaurant))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionDetail);

@@ -5,8 +5,10 @@ import {
 } from 'reactstrap';
 import {connect} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
+import io from 'socket.io-client';
 import {logOut} from './actions/Register';
 import {create as createCollection, CREATE_SUCCESS} from './actions/Collection';
+import {setSocket} from './actions/Socket';
 import Search from './Search';
 import Collection from './Collection';
 import NavButtons from './NavButtons';
@@ -20,6 +22,13 @@ class Dashboard extends Component {
             modalOpen: false,
             createDisabled: false
         };
+
+        this.socket = io.connect(`//${window.location.hostname}:9000`);
+
+        if (props.token) {
+            this.socket.emit('auth', props.token);
+            props.setSocket(this.socket);
+        }
     }
 
     toggleModal = () => {
@@ -38,6 +47,11 @@ class Dashboard extends Component {
                 this.setState({createDisabled: false, modalOpen: false});
             }
         }
+    }
+
+    componentWillUnmount() {
+        this.props.setSocket(null);
+        this.socket.disconnect();
     }
 
     render() {
@@ -69,7 +83,8 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({token: state.register.token, email: state.register.email});
 const mapDispatchToProps = dispatch => ({
     logOut: () => dispatch(logOut()),
-    createCollection: (name) => dispatch(createCollection(name))
+    createCollection: name => dispatch(createCollection(name)),
+    setSocket: socket => dispatch(setSocket(socket))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

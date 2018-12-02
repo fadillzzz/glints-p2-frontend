@@ -6,6 +6,7 @@ export const GET_COLLECTIONS_SUCCESS = 'GET_COLLECTIONS_SUCCESS';
 export const GET_DETAILS_SUCCESS = 'GET_DETAILS_SUCCESS';
 export const EDIT_SUCCESS = 'EDIT_SUCCESS';
 export const EDIT_FAILURE = 'EDIT_FAILURE';
+export const ADD_SUCCESS = 'ADD_SUCCESS';
 export const REMOVE_SUCCESS = 'REMOVE_SUCCESS';
 export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
 export const ADD_USER_FAILURE = 'ADD_USER_FAILURE';
@@ -32,6 +33,10 @@ export function editSuccess(name) {
 
 export function editFailure(error) {
     return {type: EDIT_FAILURE, error};
+}
+
+export function addSuccess(restaurant) {
+    return {type: ADD_SUCCESS, restaurant};
 }
 
 export function removeSuccess(restaurant) {
