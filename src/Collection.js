@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Button} from 'reactstrap';
-import {getCollections, editSuccess} from './actions/Collection';
+import {getCollections, editSuccess, createSuccess} from './actions/Collection';
 import {Link} from 'react-router-dom';
 
 class Collection extends Component {
@@ -12,6 +12,10 @@ class Collection extends Component {
             props.socket.on('edit-collection', collection => {
                 props.editSuccess(collection.name, collection.id);
             });
+
+            props.socket.on('add-collection', collection => {
+                props.createSuccess(collection);
+            })
         }
     }
 
@@ -24,6 +28,7 @@ class Collection extends Component {
 
         if (socket) {
             socket.removeAllListeners('edit-collection');
+            socket.removeAllListeners('add-collection');
         }
     }
 
@@ -63,7 +68,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     getCollections: () => dispatch(getCollections()),
-    editSuccess: (name, id) => dispatch(editSuccess(name, id))
+    editSuccess: (name, id) => dispatch(editSuccess(name, id)),
+    createSuccess: collection => dispatch(createSuccess(collection))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collection);

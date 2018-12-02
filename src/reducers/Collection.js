@@ -22,11 +22,14 @@ const initialState = {
 export default function collection(state = initialState, action) {
     switch (action.type) {
         case CREATE_SUCCESS:
-            state.collections.push({
-                id: action.collection._id,
-                name: action.collection.name
-            });
-            return {...state};
+            if (! state.collections.find(c => c.id === action.collection._id)) {
+                state.collections.push({
+                    id: action.collection._id,
+                    name: action.collection.name
+                });
+            }
+
+            return {...state, collections: [...state.collections]};
         case CREATE_FAILURE:
             return {...state, error: action.error};
         case GET_COLLECTIONS_SUCCESS:
@@ -63,8 +66,15 @@ export default function collection(state = initialState, action) {
             state.selected.restaurants = restaurants.filter(r => r.id !== action.restaurant);
             return {...state, selected: {...state.selected}};
         case ADD_USER_SUCCESS:
-            action.user.id = action.user._id;
-            state.selected.users.push(action.user);
+            const userFound = state.selected.users.find(u => {
+                return u.id === action.user._id;
+            });
+
+            if (! userFound) {
+                action.user.id = action.user._id;
+                state.selected.users.push(action.user);
+            }
+
             return {...state, addUserError: '', selected: {...state.selected}};
         case ADD_USER_FAILURE:
             return {...state, addUserError: action.error};
