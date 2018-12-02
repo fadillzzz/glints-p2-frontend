@@ -11,6 +11,7 @@ import Search from './Search';
 import Collection from './Collection';
 import NavButtons from './NavButtons';
 import NewCollectionModal from './NewCollectionModal';
+import CollectionDetail from './CollectionDetail';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -52,7 +53,8 @@ class Dashboard extends Component {
                 </Col>
                 <Col md="9" id="main-content">
                     <Route exact path={match.path} component={Search} />
-                    <Route path={`${match.path}/collections`} component={Collection} />
+                    <Route exact path={`${match.path}/collections`} component={Collection} />
+                    <Route path={`${match.path}/collections/:id`} component={CollectionDetail} />
                 </Col>
                 <NewCollectionModal open={this.state.modalOpen} toggle={this.toggleModal}
                     submit={this.createCollection} disabled={this.state.createDisabled} />

@@ -9,20 +9,28 @@ class Collection extends Component {
         this.props.getCollections();
     }
 
-    render() {
+    renderItem = collection => {
         const {match} = this.props;
-        const {collections} = this.props.data;
+
+        return (
+            <Link to={`${match.url}/${collection.id}`}>
+                <Button color="primary" size="block">
+                    {collection.name}
+                </Button>
+            </Link>
+        );
+    }
+
+    render() {
+        const {data: collections} = this.props;
+        const itemRenderer = this.props.renderItem || this.renderItem;
 
         return (
             <div>
                 {collections.map((collection, index) => (
                     <Row key={index} className="collection-list-item">
                         <Col>
-                            <Link to={`${match.url}/${collection.id}`}>
-                                <Button color="primary">
-                                    {collection.name}
-                                </Button>
-                            </Link>
+                            {itemRenderer(collection)}
                         </Col>
                     </Row>
                 ))}
@@ -31,7 +39,7 @@ class Collection extends Component {
     }
 }
 
-const mapStateToProps = state => ({data: state.collection});
+const mapStateToProps = state => ({data: state.collection.collections});
 const mapDispatchToProps = dispatch => ({
     getCollections: () => dispatch(getCollections())
 });

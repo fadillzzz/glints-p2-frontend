@@ -11,10 +11,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
 .nav-buttons {
     width: 100%;
     border-radius: 0;
@@ -24,13 +20,12 @@ code {
     width: 100%;
 }
 
-.add-to-collection {
-    width: 100%;
+.add-to-collection, .remove-from-collection {
     text-align: left;
     margin-bottom: 10px;
 }
 
-.add-to-collection .name {
+.add-to-collection .name, .remove-from-collection .name {
     margin-left: 5px;
 }
 

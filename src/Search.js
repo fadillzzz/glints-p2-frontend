@@ -7,19 +7,23 @@ import {faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import {Row, Col, Form, Button, Input} from 'reactstrap';
 import {search} from './actions/Search';
+import {addTo} from './actions/Collection';
+import AddRestaurantModal from './AddRestaurantModal';
 
 class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
             dateTime: null,
-            searchDisabled: false
+            searchDisabled: false,
+            selected: null,
+            addModalOpen: false
         };
     }
 
     updateFilter = date => {
         this.setState({dateTime: date});
-    }
+    };
 
     search = async e => {
         e.preventDefault();
@@ -36,10 +40,21 @@ class Search extends Component {
         await this.props.search(dateTime);
 
         this.setState({searchDisabled: false});
-    }
+    };
+
+    toggleModal = restaurant => {
+        this.setState({addModalOpen: ! this.state.addModalOpen, selected: restaurant});
+    };
+
+    addTo = (collection) => {
+        const {selected} = this.state;
+        this.props.addTo(selected.id, collection.id);
+        this.toggleModal();
+    };
 
     render() {
         const {restaurants} = this.props.data;
+        const {selected} = this.state;
 
         return (
             <div>
@@ -68,7 +83,7 @@ class Search extends Component {
                     {restaurants.map((restaurant, index) => (
                         <Row key={index}>
                             <Col>
-                                <Button className="add-to-collection" color="success">
+                                <Button className="add-to-collection" size="block" color="success" onClick={() => this.toggleModal(restaurant)}>
                                     <FontAwesomeIcon icon={faPlusSquare} />
                                     <span className="name">{restaurant.name}</span>
                                 </Button>
@@ -76,6 +91,8 @@ class Search extends Component {
                         </Row>
                     ))}
                 </div>
+                <AddRestaurantModal open={this.state.addModalOpen} toggle={this.toggleModal}
+                    restaurant={selected} add={this.addTo} />
             </div>
         );
     }
@@ -83,7 +100,8 @@ class Search extends Component {
 
 const mapStateToProps = state => ({data: state.search});
 const mapDispatchToProps = dispatch => ({
-    search: dateTime => dispatch(search(dateTime))
+    search: dateTime => dispatch(search(dateTime)),
+    addTo: (restaurantId, collectionId) => dispatch(addTo(restaurantId, collectionId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

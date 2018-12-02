@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Button} from 'reactstrap';
+import {Row, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignOutAlt, faSearch, faList, faPlusSquare} from '@fortawesome/free-solid-svg-icons';
